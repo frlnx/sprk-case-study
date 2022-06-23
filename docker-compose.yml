@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=postgres
+      - PGHOST=db
+      - PGDATA=/tmp
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+
+  web:
+    build: .
+    command: ./wait-for-postgres.sh db python web/server.py
+    volumes:
+      - .:/opt/app
+    ports:
+      - "5000:5000"
+    environment:
+      - POSTGRES_HOSTNAME=db
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=postgres
+      - POSTGRES_SCHEME=public
+      - stage=web
+    networks:
+      - default
+    depends_on:
+      - db
+
+  test:
+    build: acceptance_tests
+    command: pytest acceptance_tests
+    environment:
+      - TARGET=web
+    volumes:
+      - .:/opt/app
+    networks:
+      - default
+    depends_on:
+      - web
