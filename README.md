@@ -31,6 +31,15 @@ after a migration.
  - With on the fly migrations, the data can be kept pristine and immutable. This brings the advantage of the data being
 cacheable and available in a distributed form without concurrency issues.
 
+Tests
+-
+There are three layers of tests
+ - Unit ie. tests/test_service.py
+ - Integration ie. tests/test_integration.py
+ - Acceptance ie. acceptance_tests/test_acceptance.py
+
+All part of the different scopes, none of them 100% covering but it shows the principle of layering tests.
+
 Final words
 -
 I know I made this challenge in a different way than described. I hope it will provide interesting discussions and
