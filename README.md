@@ -5,14 +5,16 @@ As I am coming to the end of the timebox I allowed myself, I will make some fina
 
 Known issues:
  - 
-I assumed duplicates could only come in the form of entries with different amount of leading zeros. I notice 
+ - I assumed duplicates could only come in the form of entries with different amount of leading zeros. I notice 
 now that this is not the case. I still think my implementation will prove interesting. This mistake can be rectified
 relatively easily.
+ - The docker files should be built in a two step build process, to make them smaller.
 
 Pattern used
 -
 I have used a Service-Provider pattern as a base for my application. I prefer this pattern because of the ability to
-layer tests, which comes in handy when working with docker specifically.
+layer tests, which comes in handy when working with docker specifically. This pattern is way too heavy for such a small
+project, but I wanted to show off.
 
 Data models
 -
@@ -27,7 +29,7 @@ is supported.
  - With no schema, there is no need to duplicate the production database to ensure compatibility with old data
 after a migration.
  - With on the fly migrations, the data can be kept pristine and immutable. This brings the advantage of the data being
-cachable and available in a distributed form without concurrency issues.
+cacheable and available in a distributed form without concurrency issues.
 
 Final words
 -
